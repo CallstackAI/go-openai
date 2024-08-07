@@ -5,8 +5,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sashabaranov/go-openai/jsonschema"
+	"github.com/callstackai/go-openai/jsonschema"
 )
+
+func boolPtr(b bool) *bool {
+	return &b
+}
 
 func TestDefinition_MarshalJSON(t *testing.T) {
 	tests := []struct {
@@ -14,6 +18,23 @@ func TestDefinition_MarshalJSON(t *testing.T) {
 		def  jsonschema.Definition
 		want string
 	}{
+		{
+			name: "Test with false AdditionalProperties",
+			def: jsonschema.Definition{
+				Type:                 jsonschema.Object,
+				Properties:           make(map[string]jsonschema.Definition),
+				AdditionalProperties: boolPtr(false),
+			},
+			want: `{"type":"object","properties":{},"additionalProperties":false}`,
+		},
+		{
+			name: "Test with no AdditionalProperties",
+			def: jsonschema.Definition{
+				Type:       jsonschema.Object,
+				Properties: make(map[string]jsonschema.Definition),
+			},
+			want: `{"type":"object","properties":{}}`,
+		},
 		{
 			name: "Test with empty Definition",
 			def:  jsonschema.Definition{},
