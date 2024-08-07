@@ -35,7 +35,7 @@ type Definition struct {
 	// Items specifies which data type an array contains, if the schema type is Array.
 	Items *Definition `json:"items,omitempty"`
 	// AdditionalProperties boolean flag whether to return additional properties
-	AdditionalProperties bool `json:"additionalProperties,omitempty"`
+	AdditionalProperties bool `json:"additionalProperties"`
 }
 
 func (d Definition) MarshalJSON() ([]byte, error) {
